@@ -1,0 +1,93 @@
+<%- include('partials/header.ejs') %>
+    <%- include('partials/navbar.ejs') %>
+        <section class="vh-100">
+            <div class="container h-100">
+                <div class="row d-flex justify-content-center align-items-center h-100">
+                    <div class="col-lg-12 col-xl-11">
+                        <div class="card text-black" style="border-radius: 25px;">
+                            <div class="card-body p-md-5">
+                                <div class="row justify-content-center">
+                                    <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
+
+                                        <p class="text-center h3 mb-5 mx-1 mx-md-4 mt-4">Start a New Challenge</p>
+
+                                        <form action="createChallenge" method="POST">
+
+                                            <div class="d-flex flex-row align-items-center mb-5">
+                                                <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                                                <div class="form-outline flex-fill mb-0">
+                                                    <label for="name" class="form-label">Challenge Name</label>
+                                                    <input type="text" class="form-control" id="name" name="name" required>
+                                                </div>
+                                            </div>
+
+                                            <div class="d-flex flex-row align-items-center mb-5">
+                                                <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                                                <div class="form-outline flex-fill mb-0">
+                                                    <label for="length" class="form-label">Select Duration</label>
+                                                    <select id="length" name="length" class="form-select">
+                                                        <option selected>Select an Option</option>
+                                                        <option value="30">30 Days</option>
+                                                        <option value="60">60 Days</option>
+                                                        <option value="90">90 Days</option>
+                                                    </select>
+                                                    <div id="formCheck" class="form-text text-danger hidden">Please
+                                                        select a challenge duration!</div>
+                                                </div>
+                                            </div>
+
+                                            <div class="d-flex flex-row align-items-center mb-5">
+                                                <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                                                <div class="form-outline flex-fill mb-0">
+                                                    <label for="name" class="form-label">On Average, how many drinks per
+                                                        week do you typically consume?</label>
+                                                    <input type="number" class="form-control" id="numDrinks"
+                                                        name="numDrinks" value=0>
+                                                </div>
+                                            </div>
+
+                                            <div class="d-flex flex-row align-items-center mb-5">
+                                                <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                                                <div class="form-outline flex-fill mb-0">
+                                                    <label for="name" class="form-label">What is your typical weekly spend on alchohol?</label>
+                                                    <div class="input-group">
+                                                        <span class="input-group-text">$</span><input type="number"
+                                                            min="0.01" step="0.01" max="2500" value="0.00"
+                                                            class="form-control" name="weeklySpend">
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="d-flex mx-4 mb-3 justify-content-center mb-lg-4">
+                                                <button id="register_btn" class="btn btn-primary btn-lg">Let's
+                                                    Go!</button>
+                                            </div>
+                                        </form>
+
+                                    </div>
+                                    <div
+                                        class="col-md-10 col-lg-5 col-xl-6 d-flex align-items-center order-1 order-lg-2">
+                                        <img src="/img/Charco/Illustrations/Waiting.png" class="img-fluid"
+                                            alt="Sample image">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <script>
+            $("form").on("change", function (e) {
+                $("#formCheck").addClass("hidden");
+            });
+
+            $("form").on("submit", function (e) {
+                if ($("select option:selected").text() === "Select an Option") {
+                    $("#formCheck").removeClass("hidden");
+                    e.preventDefault();
+                }
+            });
+        </script>
+        <%- include('partials/footer.ejs') %>

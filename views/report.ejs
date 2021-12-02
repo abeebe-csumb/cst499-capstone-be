@@ -1,0 +1,59 @@
+<%- include('partials/header.ejs') %>
+    <%- include('partials/navbar.ejs') %>
+        <link href="/style/report.css" rel="stylesheet">
+        <div class="container">
+            <div class="row mb-3">
+                <div class="col-lg-4 col-xl-4 col-md-4 col-sm-12">
+                    <div id="daysCompleted" class="card">
+                        <div class="card-body text-center">
+                            <br>
+                            <br><br>
+                            <h1>
+                                <%- (metrics[0].longestStreak===undefined)? 0 : metrics[0].longestStreak %>
+                            </h1>
+                            days <br>
+                            <hr>
+                            Longest Streak
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-xl-4 col-md-4 col-sm-12">
+                    <div id="daysCompleted" class="card">
+                        <div class="card-body text-center">
+                            <br>
+                            <br><br>
+                            <h1>
+                                <%- (metrics[0].totalChallenges===undefined)? 0 : metrics[0].totalChallenges %>
+                            </h1>
+                            <br>
+                            <hr>
+                            Total Number of Challenges
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-xl-4 col-md-4 col-sm-12">
+                    <%- include('partials/currentChallenge.ejs') %>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-lg-6 col-xl-6 col-md-12 col-sm-12">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <canvas id="myChart" width="400" height="400"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-xl-6 col-md-12 col-sm-12">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <canvas id="myPie" width="200" height="200"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Scripts for rendering charts -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.1/chart.min.js"></script>
+        <script src="/js/report.js" type="text/javascript"></script>
+        <%- include('partials/footer.ejs') %>

@@ -1,0 +1,56 @@
+<div class="card">
+    <div class="card-body">
+      <% if (currentChallenge.length===0) { %>
+        <h3 class="text-secondary mb-3">No Current Challenges</h3>
+        <a href="/createChallenge" class="btn btn-dark">Start a New Challenge</a>
+        <% } else { %>
+
+          <h5 class="card-title text-center">Current Challenge</h5>
+          <% if (currentChallenge[0].challengeName.length> 0) { %>
+            <h6 class="card-subtitle text-center mb-2 text-muted">
+              <%= currentChallenge[0].challengeName %>
+            </h6>
+            <% } %>
+              <ul class="list-group mb-3">
+                <li class="list-group-item">Length: <%= currentChallenge[0].challengeLength %> days</li>
+                <li class="list-group-item">Start Date: <%= currentChallenge[0].dateStarted %>
+                </li>
+                <li class="list-group-item">Days Completed: <%= currentChallenge[0].daysCompleted %>
+                </li>
+              </ul>
+              <div class="card-footer">
+                <a href="/journal" class="card-link">Log Journal Entry</a>
+                <button type="button" style="float: right;" class="btn btn-sm btn-danger" data-bs-toggle="modal"
+                  data-bs-target="#model">End Challenge</button>
+              </div>
+
+              <!-- Modal -->
+              <div class="modal fade" id="model" data-bs-backdrop="static" data-bs-keyboard="false"
+                tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="staticBackdropLabel">End Current Challenge</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      Are you sure you would like to end the challenge <%= currentChallenge[0].challengeName
+                        %>?
+                        You will not be
+                        able to re-start this challenge.
+                    </div>
+                    <div class="modal-footer">
+                      <form action="endChallenge" method="post">
+                        <input id="id" name="id" class="hidden" value="<%= currentChallenge[0].id %>" />
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Understood</button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <% } %>
+    </div>
+  </div>

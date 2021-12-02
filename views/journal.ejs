@@ -1,0 +1,156 @@
+<%- include('partials/header.ejs') %>
+    <%- include('partials/navbar.ejs') %>
+
+        <!-- custom style for sign in component -->
+
+        <link href="/style/sidebars.css" rel="stylesheet">
+        <link href="/style/journal.css" rel="stylesheet">
+        <main>
+            <div class="b-example-divider"></div>
+            <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 380px;">
+                <div class="d-flex align-items-center flex-shrink-0 p-3 border-bottom">
+                    <h5 class="fs-5 flex-grow-1 fw-semibold">Previous Entries</h5>
+                    <button id="newEntryBtn" type="button" class="btn btn-outline-secondary btn-md">New Entry</button>
+
+                </div>
+
+                <div class="list-group list-group-flush border-bottom scrollarea">
+                    <% for (let i=0; i < allJournalEntries.length; i++) { %>
+                        <a id="<%- allJournalEntries[i].activityId %>" href="#"
+                            class="list-group-item list-group-item-action py-3 lh-tight" aria-current="true">
+                            <div class="d-flex w-100 align-items-center justify-content-between mb-2">
+                                <strong class="mb-1">
+                                    <%= allJournalEntries[i].activityTitle %>
+                                </strong>
+                                <small>
+                                    <%= allJournalEntries[i].activityDate %>
+                                </small>
+                            </div>
+                            <div class="col-10 mb-1 small">
+                                <%= allJournalEntries[i].activityDescription %>
+                            </div>
+                        </a>
+                        <% } %>
+                </div>
+            </div>
+
+            <div class="container p-5 bg-light">
+                <div class="row mb-5">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div id="journalContent"></div>
+                        <div id="newEntryForm" class="hidden">
+
+                            <% if (currentChallenge.length===0) { %>
+                                <h4 class="text-center mb-5 text-muted">
+                                    You must have an active challenge to create a journal entry!
+                                </h4>
+                                <div class="mb-3 text-center">
+                                    <a href="/createChallenge" class="btn btn-primary btn-md">Create Challenge</a>
+                                </div>
+                                <% } else { %>
+                                    <h3 class="mb-3 text-center">New Journal Entry</h3>
+                                    <form action="/createJournalEntry" method="POST">
+                                        <input class="hidden" name="challengeid"
+                                            value="<%= currentChallenge[0].id %>"></label>
+                                        <div class="d-flex flex-row align-items-center mb-5">
+                                            <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                                            <div class="form-outline flex-fill mb-0">
+                                                <label for="name" class="form-label">Entry Title</label>
+                                                <input type="text" class="form-control" id="name" name="name" required>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-flex flex-row align-items-center mb-5">
+                                            <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                                            <div class="form-outline flex-fill mb-0">
+
+                                                <label class="form-label align-self-center mb-3">How do you feel
+                                                    today?</label>
+
+                                                <div class="form-check">
+                                                    <div class="row text-center">
+                                                        <div class="col-md-2">
+                                                            <input type="checkbox" name="content" class="hidden"
+                                                                id="content">
+                                                            <label class="form-check-label mb-3" for="content">
+                                                                <img class="img-fluid" src="/img/emotions/smile.png"
+                                                                    alt="content">
+                                                            </label>
+                                                            <p>Content</p>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <input type="checkbox" name="happy" class="hidden"
+                                                                id="happy">
+                                                            <label class="form-check-label mb-3" for="happy">
+                                                                <img class="img-fluid" src="/img/emotions/happy.png"
+                                                                    alt="happy">
+                                                            </label>
+                                                            <p>Happy</p>
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <input type="checkbox" name="sad" class="hidden" id="sad">
+                                                            <label class="form-check-label mb-3" for="sad">
+                                                                <img class="img-fluid" src="/img/emotions/sad.png"
+                                                                    alt="sad">
+                                                            </label>
+                                                            <p>Sad</p>
+                                                        </div>
+                                                        <div class="col-md-2">
+
+                                                            <input type="checkbox" name="sceptic" class="hidden"
+                                                                id="sceptic">
+                                                            <label class="form-check-label mb-3" for="sceptic">
+                                                                <img class="img-fluid" src="/img/emotions/sceptic.png"
+                                                                    alt="sceptic">
+                                                            </label>
+                                                            <p>Cravings</p>
+                                                        </div>
+
+                                                        <div class="col-md-2">
+                                                            <input type="checkbox" name="shocked" class="hidden"
+                                                                id="shocked">
+                                                            <label class="form-check-label mb-3" for="shocked">
+                                                                <img class="img-fluid" src="/img/emotions/shocked.png"
+                                                                    alt="shocked">
+                                                            </label>
+                                                            <p>Overwhelmed</p>
+                                                        </div>
+
+                                                        <div class="col-md-2 col-sm-4">
+                                                            <input type="checkbox" name="yawn" class="hidden" id="yawn">
+                                                            <label class="form-check-label mb-3" for="yawn">
+                                                                <img class="img-fluid" src="/img/emotions/yawn.png"
+                                                                    alt="yawn">
+                                                            </label>
+                                                            <p>Tired</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-flex flex-row align-items-center mb-5">
+                                            <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                                            <div class="form-outline flex-fill mb-0">
+                                                <label for="description" class="form-label">Thoughts, feelings,
+                                                    etc.!</label>
+                                                <textarea id="description" class="form-control" rows="6" maxlength="255"
+                                                    name="description"></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3 justify-content-center">
+                                            <button type="submit" journal_btn"
+                                                class="btn btn-primary btn-md">Add</button>
+                                            <button id="cancel_btn" class="btn btn-danger btn-md">Cancel</button>
+                                        </div>
+                                    </form>
+                                <% } %>
+                        </div>
+                    </div>
+                </div>
+        </main>
+
+        <script src="/js/journal.js"></script>
+        <script src="/js/sidebars.js"></script>
+        <%- include('partials/footer.ejs') %>

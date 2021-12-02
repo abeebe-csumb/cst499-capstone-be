@@ -1,0 +1,17 @@
+body {
+    margin-top: 4.5rem;
+}
+label>img {
+    height: 75px;
+    cursor: pointer;
+    filter: grayscale(100%);
+    padding: inherit;
+}
+
+label>img:hover {
+    filter: grayscale(0);
+}
+
+input[type="checkbox"]:checked+label>img {
+    filter: grayscale(0);
+}

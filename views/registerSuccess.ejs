@@ -1,0 +1,36 @@
+<%- include('partials/header.ejs') %>
+    <%- include('partials/noauthnav.ejs') %>
+
+        <style>
+            .card {
+                border: none;
+                background-color: transparent;
+            }
+        </style>
+
+        <section class="vh-100">
+            <div class="container h-100">
+                <div class="row d-flex justify-content-center align-items-center h-100">
+                    <div class="col-lg-12 col-xl-11">
+                        <div class="card text-black" style="border-radius: 25px;">
+                            <div class="card-body p-md-5">
+                                <div class="row justify-content-center">
+                                    <div class="col-lg-6 col-md-8 col-sm-10">
+                                        <p class="text-center h3">You have been registered
+                                            successfully!</p>
+
+                                        <img src="/img/Charco/Illustrations/Congratulations.png" class="img-fluid"
+                                            alt="Sample image">
+
+                                        <div class="d-flex mx-4 mb-3 mt-3 justify-content-center mb-lg-4">
+                                            <a href="/login" class="btn btn-outline-warning btn-lg">Login</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <%- include('partials/footer.ejs') %>

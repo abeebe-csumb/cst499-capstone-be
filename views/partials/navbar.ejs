@@ -1,0 +1,46 @@
+<script>
+    $(".nav-link").on("click", function(e) {
+        $(this).addClass("active");
+    });
+</script>
+
+<nav class="navbar navbar-expand-md navbar-light bg-white fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <img class="img-fluid brand-img pr-3" src="/img/core/brand_logo.png" />
+            <span style="color:#9bc53d">sober</span><strong style="color:#073b4c;">.me</strong></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+            aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/home">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/journal">Journal</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/report">Report</a>
+                </li>
+            </ul>
+
+            <form class="d-flex">
+
+                <div class="dropdown">
+
+                    <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton"
+                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Logged in as <%= user.firstname %>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a id="logout_btn" class="dropdown-item" href="/logout">Log out</a>
+                        <a class="dropdown-item" href="/messages" disabled>Messages
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</nav>

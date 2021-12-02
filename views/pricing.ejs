@@ -1,0 +1,98 @@
+<%- include('partials/header.ejs') %>
+    <%- include('partials/noauthnav.ejs') %>
+        <style>
+            .card-header {
+                background-color: #55c1ff !important;
+            }
+            .card {
+                border: 1px solid #55c1ff;
+            }
+        </style>
+
+        <style>
+            .bd-placeholder-img {
+                font-size: 1.125rem;
+                text-anchor: middle;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                user-select: none;
+            }
+
+            @media (min-width: 768px) {
+                .bd-placeholder-img-lg {
+                    font-size: 3.5rem;
+                }
+            }
+        </style>
+
+
+        <!-- Custom styles for this template -->
+        <link href="/style/pricing.css" rel="stylesheet">
+
+        <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
+            <h1 class="display-4 fw-normal">Pricing</h1>
+            <p class="fs-5 text-muted">Multiple, flexible plans and pricing options to meet you where you are at in your journey.
+            </p>
+        </div>
+        <div class="container-fluid">
+            <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+                <div class="col">
+                    <div class="card mb-4 rounded-3">
+                        <div class="card-header py-3 text-white">
+                            <h4 class="my-0 fw-normal">Seedling</h4>
+                        </div>
+                        <div class="card-body">
+                            <h1 class="card-title pricing-card-title">$0<small class="text-muted fw-light">/mo</small>
+                            </h1>
+                            <ul class="list-unstyled mt-3 mb-4">
+                                <li>Daily check ins</li>
+                                <li>Motivational quotes</li>
+                                <li>Reporting</li>
+                                <li>SOS contact</li>
+                            </ul>
+                            <a class="w-100 btn btn-lg btn-outline-primary" href="/register">Sign up for free</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card mb-4 rounded-3">
+                        <div class="card-header py-3 text-white">
+                            <h4 class="my-0 fw-normal">Sprout</h4>
+                        </div>
+                        <div class="card-body">
+                            <h1 class="card-title pricing-card-title">$15<small class="text-muted fw-light">/mo</small>
+                            </h1>
+                            <ul class="list-unstyled mt-3 mb-4">
+                                <li>Personalized planning</li>
+                                <li>Ads-free experience</li>
+                                <li>Customized alerting</li>
+                                <li>Geo-tracking for "danger zones"</li>
+                            </ul>
+                            <button type="button" class="w-100 btn btn-lg btn-primary" disabled>Get started</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card mb-4 rounded-3">
+                        <div class="card-header py-3 text-white">
+                            <h4 class="my-0 fw-normal">Juniper</h4>
+                        </div>
+                        <div class="card-body">
+                            <h1 class="card-title pricing-card-title">$29<small class="text-muted fw-light">/mo</small>
+                            </h1>
+                            <ul class="list-unstyled mt-3 mb-4">
+                                <li>Access to growth coach</li>
+                                <li>Data analytics</li>
+                                <li>Comprehensive care plan</li>
+                                <li>Exclusive premium content</li>
+                            </ul>
+                            <button type="button" class="w-100 btn btn-lg btn-primary" disabled>Contact us</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <%- include('partials/footer.ejs') %>

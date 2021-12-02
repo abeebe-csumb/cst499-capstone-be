@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Mulish:wght@500&display=swap');
+
+body {
+    margin-bottom: 4.5rem;
+    margin-top: 4.5rem;
+}
+
+h1, h2, h3, h4, h5, h6, .navbar-brand {
+    font-family: 'Mulish', sans-serif;
+}
+
+p, .li, .td {
+    font-family: 'Montserrat', sans-serif;
+    
+}
+
+.hidden {
+    display: none;
+}
+
+.brand-img {
+    max-width: 40px;
+    max-height: 40px;
+    border-radius: 50%;
+    margin: auto;
+    margin-right: 15px;
+}
+
+.card-footer {
+    background-color: #fff;
+    border: none;
+}
