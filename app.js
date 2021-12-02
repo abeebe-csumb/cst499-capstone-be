@@ -44,12 +44,12 @@ models.sequelize.sync().then(function () {
     console.log(err, 'Something went wrong with the database sync.');
   });
 
-const db = require("./public/js/database");
+const db = require("./public/js/database.js");
 const { sequelize } = require("./models");
 
-const time = require("./public/js/time");
-const unsplash = require("./public/js/unsplash");
-const user = require("./controllers/user");
+const time = require("./public/js/time.js");
+const unsplash = require("./public/js/unsplash.js");
+const user = require("./controllers/user.js");
 
 // node localstorage
 var LocalStorage = require('node-localstorage').LocalStorage,
