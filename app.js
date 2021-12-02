@@ -5,7 +5,7 @@ const passport = require('passport');
 require("dotenv").config();
 // configure global environment
 const hostname = process.env.HOST || '127.0.0.1';
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 3000;
 
 // instantiate the app
 const app = express();
@@ -44,12 +44,12 @@ models.sequelize.sync().then(function () {
     console.log(err, 'Something went wrong with the database sync.');
   });
 
-const db = require("./public/js/database.js");
+const db = require("./public/js/database");
 const { sequelize } = require("./models");
 
-const time = require("./public/js/time.js");
-const unsplash = require("./public/js/unsplash.js");
-const user = require("./controllers/user.js");
+const time = require("./public/js/time");
+const unsplash = require("./public/js/unsplash");
+const user = require("./controllers/user");
 
 // node localstorage
 var LocalStorage = require('node-localstorage').LocalStorage,
