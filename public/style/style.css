@@ -30,3 +30,7 @@ p, .li, .td {
     background-color: #fff;
     border: none;
 }
+
+#sidebar {
+    overflow-y: scroll;
+}

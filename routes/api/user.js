@@ -1,7 +1,5 @@
 const passport = require('passport');
 const router = require('express').Router();
-const auth = require('../auth');
-const login = require('../isLoggedIn');
 const mailer = require('../mailer');
 const { User } = require('../../controllers/index.js');
 
@@ -10,11 +8,17 @@ router.use(passport.session());
 
 //POST new user route (optional, everyone has access)
 router.post('/create', (req, res, next) => {
-    const { email, password, firstname, lastname } = req.body;
+    const { email, password, firstname, lastname, verifyPassword } = req.body;
 
     if (!email || !password || !firstname || !lastname) {
         return res.status(422).json({
             message: 'All fields are required!'
+        });
+    }
+
+    if (password != verifyPassword) {
+        return res.status(422).json({
+            message: 'Passwords do not match!'
         });
     }
 

@@ -55,6 +55,16 @@ const user = require("./controllers/user.js");
 var LocalStorage = require('node-localstorage').LocalStorage,
   localStorage = new LocalStorage('./scratch');
 
+// stream API
+const stream = require('getstream');
+const { like } = require("sequelize/dist/lib/operators");
+
+// instantiate a new client (server side) 
+const client = stream.connect(
+  process.env.STREAM_API_KEY,
+  process.env.STREAM_API_SECRET
+);
+
 // routes
 
 /* UNAUTHENTICATED ROUTES */
@@ -119,15 +129,32 @@ app.get("/home", [auth, login.isLoggedIn], async (req, res) => {
     localStorage.setItem('dailyQuote', JSON.stringify(quote_json));
   }
 
+  let userId = id.toString();
+  let curUser = client.feed('user', userId);
+
+  // Read timeline
+  let results = await curUser.get({ limit: 10, reactions: { recent: true, counts: true, own: true } });
+  let followStats = await curUser.followStats();
+
   res.render("home", {
-    user: {
-      firstname: firstname
-    },
+    user: req.user,
     activities: await db.getActivites(id),
     currentChallenge: await db.getCurrentChallenge(id),
     previousChallenge: await db.getPreviousChallenges(id),
     backgroundURL: localStorage.getItem('imageURL'),
-    dailyQuote: JSON.parse(localStorage.getItem('dailyQuote'))
+    dailyQuote: JSON.parse(localStorage.getItem('dailyQuote')),
+    feed: results.results,
+    followStats: followStats.results,
+  });
+});
+
+app.get("/profile", [auth, login.isLoggedIn], async (req, res) => {
+  const { id, email, firstname, lastname } = req.user;
+  // check if cookie has expired, if yes reset the image stored in local storage
+
+  res.render("profile", {
+    user: req.user,
+    previousChallenge: await db.getPreviousChallenges(id)
   });
 });
 
@@ -137,7 +164,8 @@ app.get("/createChallenge", [auth, login.isLoggedIn], (req, res) => {
   });
 });
 
-app.post("/createChallenge", [auth, login.isLoggedIn], (req, res) => {
+app.post("/createChallenge", [auth, login.isLoggedIn], async (req, res) => {
+  const { id, email, firstname, lastname } = req.user;
   let { length, name, weeklySpend, numDrinks } = req.body;
   let startDate = new Date();
   let endDate = new Date(new Date().getTime() + (length * 24 * 60 * 60 * 1000));
@@ -147,6 +175,15 @@ app.post("/createChallenge", [auth, login.isLoggedIn], (req, res) => {
   } catch (err) {
     console.log(err);
   }
+
+  const userFeed = client.feed('user', id.toString());
+
+  await userFeed.addActivity({
+    actor: firstname + ' ' + lastname,
+    verb: 'challenge',
+    object: 1,
+    message: name
+  });
 });
 
 app.post("/endChallenge", [auth, login.isLoggedIn], (req, res) => {
@@ -169,6 +206,16 @@ app.get('/report', [auth, login.isLoggedIn], async (req, res) => {
   });
 }); //report
 
+app.get('/report1', auth, async (req, res) => {
+  const userid = req.query.id;
+  res.send(await db.getReportJournalEntries(userid));
+});
+
+app.get('/report2', auth, async (req, res) => {
+  const userid = req.query.id;
+  res.send(await db.getEmotionCountByDate(userid));
+});
+
 app.get('/journal', [auth, login.isLoggedIn], async (req, res) => {
   const { id, email, firstname, lastname } = req.user;
   res.render('journal', {
@@ -178,21 +225,32 @@ app.get('/journal', [auth, login.isLoggedIn], async (req, res) => {
   });
 }); //journal
 
-app.post("/createJournalEntry", [auth, login.isLoggedIn], (req, res) => {
-  const { challengeid, name, description} = req.body;
-  let content = (req.body.content === undefined)? 0 : 1;
-  let happy = (req.body.happy === undefined)? 0 : 1;
-  let sad = (req.body.sad === undefined)? 0 : 1;
-  let craving = (req.body.craving === undefined)? 0 : 1;
-  let overwhelemd = (req.body.overwhelemd === undefined)? 0 : 1;
-  let tired = (req.body.tired === undefined)? 0 : 1;
+app.post("/createJournalEntry", [auth, login.isLoggedIn], async (req, res) => {
+  const { id, email, firstname, lastname } = req.user;
+  const { challengeid, name, description, userid } = req.body;
+  let content = (req.body.content === undefined) ? 0 : 1;
+  let happy = (req.body.happy === undefined) ? 0 : 1;
+  let sad = (req.body.sad === undefined) ? 0 : 1;
+  let craving = (req.body.craving === undefined) ? 0 : 1;
+  let overwhelemd = (req.body.overwhelemd === undefined) ? 0 : 1;
+  let tired = (req.body.tired === undefined) ? 0 : 1;
   let type = "journal entry";
   try {
     db.createChallengeActivity(challengeid, type, description, name, content, happy, sad, craving, overwhelemd, tired);
-    
+
   } catch (err) {
     console.log(err);
   }
+
+  const userFeed = client.feed('user', id.toString());
+
+  await userFeed.addActivity({
+    actor: firstname + ' ' + lastname,
+    verb: 'journal',
+    object: 1,
+    message: description
+  });
+
   res.redirect("/journal");
 });
 
@@ -200,6 +258,15 @@ app.get('/messages', [auth, login.isLoggedIn], (req, res) => {
   res.render('messages', {
     user: req.user
   });
+});
+
+app.get('/browseUsers', [auth, login.isLoggedIn], async (req, res) => {
+  const { id, email, firstname, lastname } = req.user;
+  res.render("browseUsers",
+    {
+      user: req.user,
+      allUsers: await db.getAllUsers(id)
+    });
 });
 
 // start server

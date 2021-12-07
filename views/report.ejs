@@ -1,15 +1,19 @@
 <%- include('partials/header.ejs') %>
     <%- include('partials/navbar.ejs') %>
+    <style>
+        .bg-success {
+            background-color: #00ab44 !important;
+        }
+    </style>
         <link href="/style/report.css" rel="stylesheet">
         <div class="container">
             <div class="row mb-3">
                 <div class="col-lg-4 col-xl-4 col-md-4 col-sm-12">
-                    <div id="daysCompleted" class="card">
+                    <div id="daysCompleted" class="card bg-light">
                         <div class="card-body text-center">
                             <br>
-                            <br><br>
                             <h1>
-                                <%- (metrics[0].longestStreak===undefined)? 0 : metrics[0].longestStreak %>
+                                <%- (metrics.length===0)? 0 : metrics[0].longestStreak %>
                             </h1>
                             days <br>
                             <hr>
@@ -18,12 +22,11 @@
                     </div>
                 </div>
                 <div class="col-lg-4 col-xl-4 col-md-4 col-sm-12">
-                    <div id="daysCompleted" class="card">
+                    <div id="daysCompleted" class="card bg-light">
                         <div class="card-body text-center">
                             <br>
-                            <br><br>
                             <h1>
-                                <%- (metrics[0].totalChallenges===undefined)? 0 : metrics[0].totalChallenges %>
+                                <%- (metrics.length===0)? 0 : metrics[0].totalChallenges %>
                             </h1>
                             <br>
                             <hr>
@@ -32,22 +35,42 @@
                     </div>
                 </div>
                 <div class="col-lg-4 col-xl-4 col-md-4 col-sm-12">
-                    <%- include('partials/currentChallenge.ejs') %>
+                    <div id="daysCompleted" class="card text-white bg-success">
+                        <div class="card-body text-center">
+                            <br>
+                            <h1>
+                                $<%- (metrics.length===0)? 0 : metrics[0].totalCostSaved %>
+                            </h1>
+                            <br>
+                            <hr>
+                            Total Cash Saved to Date
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <canvas id="chart2"></canvas>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <div class="row mb-3">
                 <div class="col-lg-6 col-xl-6 col-md-12 col-sm-12">
-                    <div class="card mb-3">
+                    <div class="card mb-3" style="height: 100%;">
                         <div class="card-body">
-                            <canvas id="myChart" width="400" height="400"></canvas>
+                            <canvas id="chart1"></canvas>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-6 col-xl-6 col-md-12 col-sm-12">
-                    <div class="card mb-3">
+                    <div class="card mb-3" style="height: 100%;">
                         <div class="card-body">
-                            <canvas id="myPie" width="200" height="200"></canvas>
+                            <%- include('partials/currentChallenge.ejs') %>
                         </div>
                     </div>
                 </div>

@@ -74,6 +74,7 @@ $(function () {
             body: JSON.stringify({
                 "email": $("#email").val(),
                 "password": $("#password").val(),
+                "verifyPassword": $("#verifyPassword").val(),
                 "firstname": $("#firstname").val(),
                 "lastname": $("#lastname").val()
             }),
@@ -87,6 +88,13 @@ $(function () {
             })
             .then((res) => {
                 $("#formCheck").removeClass("hidden");
+
+                if(route === "reset") {
+                    $("#formCheck").removeClass("text-danger");
+                    $("#login_link").removeClass("hidden");
+                    $("#submit_btn").addClass("hidden");
+                }
+
                 $("#formCheck").html(res.message);
             })
             .catch((error) => {});

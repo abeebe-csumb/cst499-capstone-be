@@ -38,6 +38,18 @@ module.exports = {
     getReportMetrics: async(userId) => {
         let rows = await executeSQL(sql.getReportMetrics, [userId]);
         return rows;
+    },
+    getReportJournalEntries: async(userId) => {
+        let rows = await executeSQL(sql.getReportJournalEntries, [userId]);
+        return rows;
+    },
+    getEmotionCountByDate: async(userId) => {
+        let rows = await executeSQL(sql.getEmotionCountByDate, [userId]);
+        return rows;
+    },
+    getAllUsers: async(userId) => {
+        let rows = await executeSQL(sql.getAllUsers, [userId]);
+        return rows;
     }
 }
 
@@ -53,8 +65,10 @@ const sql = {
     getJournalEntries: `select ca.id as activityId,CAST(ca.activityDate AS CHAR) as activityDate,ca.activityType,ca.activityTitle,ca.activityDescription,c.id as challengeId,
     u.id as userId from challengeActivity ca join challenge c on ca.challengeId = c.id join users u on u.id = c.userid where activityType = 'journal entry' and u.id = ? order by activityDate desc;`,
     createChallengeActivity: `insert into challengeActivity (challengeId, activityDate, activityType, activityDescription, activityTitle, content, happy, sad, cravings, overwhelemd, tired) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
-    getReportMetrics: `select c.id, max(datediff(IF(isActive=0, actualEndDate, CURDATE()), dateStarted)) as longestStreak, count(isActive) as totalChallenges
-    from challenge c join users u on c.userid = u.id where u.id = ?;`
+    getReportMetrics: `select * from report_metrics where user_id = ?;`,
+    getReportJournalEntries: `SELECT * FROM journal_entries_by_date WHERE user_id = ?;`,
+    getEmotionCountByDate: `SELECT * FROM emotion_counts_by_date WHERE user_id = ? order by activityDate asc`,
+    getAllUsers: `SELECT * FROM users where id != ? order by lastname desc;`,
 }
 
 //functions
