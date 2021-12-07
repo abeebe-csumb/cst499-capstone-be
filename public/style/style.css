@@ -1,8 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Mulish:wght@500&display=swap');
 
 body {
-    margin-bottom: 4.5rem;
-    margin-top: 4.5rem;
+    margin-top: 4rem;
+    padding-bottom: 4.5rem;
+    height: 90%;
 }
 
 h1, h2, h3, h4, h5, h6, .navbar-brand {
