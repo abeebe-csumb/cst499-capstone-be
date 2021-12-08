@@ -96,7 +96,7 @@ router.post('/forgotPassword', (req, res) => {
         .then((user) => {
             if (user) {
                 const token = User.generateJWT(email);
-                const resetURL = `http://${process.env.HOST}:${process.env.PORT}/resetPassword?email=${email}&token=${token}`;
+                const resetURL = `${process.env.HOST}/resetPassword?email=${email}&token=${token}`;
                 // console.log(resetURL);
                 const htmlMessage = `<div><p>Password reset requested.` +
                     `</p><p>Follow <a href="${resetURL}">this link</a> to reset your password.</p>` +
