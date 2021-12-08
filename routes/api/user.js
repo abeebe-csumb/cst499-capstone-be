@@ -2,6 +2,7 @@ const passport = require('passport');
 const router = require('express').Router();
 const mailer = require('../mailer');
 const { User } = require('../../controllers/index.js');
+const fs = require('fs');
 
 router.use(passport.initialize());
 router.use(passport.session());
@@ -35,6 +36,14 @@ router.post('/create', (req, res, next) => {
                 lastname: lastname
             })
                 .then(() => {
+                    // send welcome email
+                    fs.readFile('public/welcome-email.html', 'utf8', (err, data) => {
+                        if (err) {
+                            console.error(err)
+                            return;
+                          }
+                          mailer.sendMail(email, 'Welcome to Sober.me!', data);
+                    });
                     return res.redirect('/registerSuccess');
                 })
                 .catch((err) => { return res.json({ "message": "An Internal Error Occurred." }); })

@@ -31,6 +31,17 @@ module.exports = {
             })
             .catch(error => console.log(error));
     },
+    updatePhoto(data) {
+        return User
+            .update(
+                { profileImage: data.password },
+                { where: { id: id } })
+            .then(function (user) {
+                console.log('Profile Image updated.')
+                return user;
+            })
+            .catch(error => console.log(error));
+    },
     findOne(data) {
         return User
             .findOne({

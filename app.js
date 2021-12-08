@@ -136,6 +136,15 @@ app.get("/home", [auth, login.isLoggedIn], async (req, res) => {
   let results = await curUser.get({ limit: 10, reactions: { recent: true, counts: true, own: true } });
   let followStats = await curUser.followStats();
 
+  let own_reactions = {};
+  results.results.forEach(v => {
+    if (v.own_reactions.like) {
+      v.own_reactions.like.forEach(e => {
+        own_reactions[e.activity_id] = e.id
+      });
+    }
+  });
+
   res.render("home", {
     user: req.user,
     activities: await db.getActivites(id),
@@ -145,6 +154,7 @@ app.get("/home", [auth, login.isLoggedIn], async (req, res) => {
     dailyQuote: JSON.parse(localStorage.getItem('dailyQuote')),
     feed: results.results,
     followStats: followStats.results,
+    own_reactions: own_reactions
   });
 });
 
@@ -157,6 +167,10 @@ app.get("/profile", [auth, login.isLoggedIn], async (req, res) => {
     previousChallenge: await db.getPreviousChallenges(id)
   });
 });
+
+// app.post('/saveProfilePicture', [auth, login.isLoggedIn], async (req, res) => {
+//   console.log(req.body);
+// });
 
 app.get("/createChallenge", [auth, login.isLoggedIn], (req, res) => {
   res.render("createChallenge", {
@@ -182,7 +196,7 @@ app.post("/createChallenge", [auth, login.isLoggedIn], async (req, res) => {
     actor: firstname + ' ' + lastname,
     verb: 'challenge',
     object: 1,
-    message: name
+    message: length + ' day'
   });
 });
 
@@ -262,10 +276,21 @@ app.get('/messages', [auth, login.isLoggedIn], (req, res) => {
 
 app.get('/browseUsers', [auth, login.isLoggedIn], async (req, res) => {
   const { id, email, firstname, lastname } = req.user;
+
+  let userId = id.toString();
+  let curUser = client.feed('user', userId);
+
+  // get list of users
+  let followStats = await curUser.following();
+  let following = [];
+
+  followStats.results.forEach(v => following.push(v.target_id));
+
   res.render("browseUsers",
     {
       user: req.user,
-      allUsers: await db.getAllUsers(id)
+      allUsers: await db.getAllUsers(id),
+      following: following
     });
 });
 

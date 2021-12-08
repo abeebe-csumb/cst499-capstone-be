@@ -40,6 +40,13 @@ app.get('/subscribe', [auth, login.isLoggedIn], async (req, res, next) => {
   res.redirect("/browseUsers");
 });
 
+app.get('/unsubscribe', [auth, login.isLoggedIn], async (req, res, next) => {
+  const { id, email, firstname, lastname } = req.user;
+  const userFeed = client.feed('user', id.toString());
+  userFeed.unfollow('user', req.query.id);
+  res.redirect("/browseUsers");
+});
+
 app.get('/reaction', [auth, login.isLoggedIn], async (req, res, next) => {
   const { id, email, firstname, lastname } = req.user;
   let type = req.query.type;
@@ -47,10 +54,11 @@ app.get('/reaction', [auth, login.isLoggedIn], async (req, res, next) => {
   let userId = id.toString();
 
   if (type === "like") {
-    client.reactions.add("like", activityId, null, { userId });
+    await client.reactions.add("like", activityId, null, { userId });
   } else {
-    // client.reactions.delete(activityId);
+    await client.reactions.delete(activityId);
   }
+  res.redirect("/home");
 });
 
 module.exports = app;

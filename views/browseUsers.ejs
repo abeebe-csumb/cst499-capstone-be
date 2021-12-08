@@ -34,7 +34,11 @@
                                                             </span>
                                                         </div>
                                                     </div>
-                                                    <button class="btn btn-link" id="<%= allUsers[i].id %>">Subscribe</button>
+                                                    <% if(following.includes("user:"+allUsers[i].id)) { %>
+                                                        <button class="btn btn-outline-danger unsubscribe" id="<%= allUsers[i].id %>">Unsubscribe</button>
+                                                    <% } else { %>
+                                                        <button class="btn btn-link subscribe" id="<%= allUsers[i].id %>">Subscribe</button>
+                                                    <% } %>
                                                 </div>
                                             </div>
                                             <% } %>
@@ -49,9 +53,22 @@
             </div>
         </main>
         <script>
-            $("button").on("click", async function(e) {
+            $(".subscribe").on("click", async function(e) {
                 await fetch(`/api/stream/subscribe?id=${e.target.id}`);
-                $(this).attr("disabled", true);
+                $(this).text("Unsubscribe");
+                $(this).removeClass("subscribe");
+                $(this).removeClass("btn-link");
+                $(this).addClass("unsubscribe");
+                $(this).addClass("btn-outline-danger");
+            });
+
+            $(".unsubscribe").on("click", async function(e) {
+                await fetch(`/api/stream/unsubscribe?id=${e.target.id}`);
+                $(this).text("Subscribe");
+                $(this).removeClass("unsubscribe");
+                $(this).removeClass("btn-outline-danger");
+                $(this).addClass("subscribe");
+                $(this).addClass("btn-link");
             });
         </script>
         <%- include('partials/footer.ejs') %>

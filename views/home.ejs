@@ -62,7 +62,7 @@
         right: 0px;
         bottom: 0px;
         left: 0px;
-        background-color: rgba(0, 0, 0, 0.5);
+        background-image: rgba(0, 0, 0, 0.5);
         ;
       }
 
@@ -179,16 +179,24 @@
                   </div>
                   <div class="feed-icon px-2"><i class="fa fa-ellipsis-v text-black-50"></i></div>
                 </div>
-                <div class="p-2 px-3"><span>
-                  <% if (feed[i].verb === "journal") { %>
-                    Logged a journal entry!
-                  <% } else if (feed[i].verb === "challenge") { %>
-                    Started a new Challenge!
-                  <% } else  { %>
-                    <%= feed[i].message %>
+                <div class="p-2 px-3">
+                  <span>
+                    <% if (feed[i].verb === "journal") { %>
+                      Logged a journal entry!
+                    <% } else if (feed[i].verb === "challenge") { %>
+                      Started a new <%= feed[i].message %> Challenge!
+                    <% } else  { %>
+                      <%= feed[i].message %>
+                    <% } %>
+                  </span>
+                </div>
+
+                <div class="d-flex socials p-2 px-3 py-3 text-primary">
+                  <% if (Object.keys(own_reactions).includes(feed[i].id)) { %>
+                    <i id="<%= own_reactions[feed[i].id] %>" class="fas fa-thumbs-up"></i>
+                  <% } else { %>
+                    <i id="<%= feed[i].id %>" class="far fa-thumbs-up"></i>
                   <% } %>
-                  </span></div>
-                <div class="d-flex socials p-2 px-3 py-3 text-primary"><i id="<%= feed[i].id %>" class="far fa-thumbs-up"></i>
                   <%- (feed[i].reaction_counts.length===0)? 0 : feed[i].reaction_counts.like %> likes
                 </div>
               </div>

@@ -1,9 +1,33 @@
 <%- include('partials/header.ejs') %>
   <%- include('partials/navbar.ejs') %>
+    <style>
+      .image-fluid {
+        max-width: 100px;
+        border-radius: 50%;
+      }
+    </style>
     <main>
       <div class="container text-center text-primary">
         <h2>User Profile</h2>
       </div>
+
+      <!-- <div class="container border-top px-5 py-2 mb-2 bg-light">
+        <div class="row">
+          <div class="col-lg-6 col-xl-6 col-md-6 col-sm-12 col-xs-12 text-center">
+            <h6>Profile Picture</h6>
+            <img id="profilePicture" class="img-fluid mb-2" src="/img/core/user.png" alt="profile picture"
+              width="100px" />
+            <form action="saveProfilePicture" method="POST">
+              <div class="mb-3 input-group">
+                <input class="form-control" type="file" id="formFile">
+                <div class="input-group-append">
+                  <button type="submit" class="btn btn-outline-success" type="button">Save</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div> -->
 
       <div class="container border-bottom border-top p-5 mb-2">
         <div class="row">
@@ -87,4 +111,18 @@
         </table>
       </div>
     </main>
+    <!-- <script>
+      window.addEventListener('load', function () {
+        document.querySelector('input[type="file"]').addEventListener('change', function () {
+          if (this.files && this.files[0]) {
+            var img = document.getElementById("profilePicture");
+            img.onload = () => {
+              URL.revokeObjectURL(img.src);
+            }
+
+            img.src = URL.createObjectURL(this.files[0]); // set src to blob url
+          }
+        });
+      });
+    </script> -->
     <%- include('partials/footer.ejs') %>
